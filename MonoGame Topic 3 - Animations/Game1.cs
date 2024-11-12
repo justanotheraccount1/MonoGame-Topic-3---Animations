@@ -12,11 +12,18 @@ namespace MonoGame_Topic_3___Animations
         Texture2D greyTribbleTexture;
         Rectangle greyTribbleRect;
         Texture2D brownTribbleTexture;
+        Texture2D portalTexture;
         Rectangle brownTribbleRect;
+        Rectangle brownTribbleRect2;
+        Texture2D orangeTribbleTexture;
+        Rectangle orangeTribbleRect;
+
         Rectangle window;
+        Texture2D TrekTexture;
         Random generator = new Random();
 
         Vector2 greyTribbleSpeed;
+        Vector2 orangeTribbleSpeed;
         Vector2 brownTribbleSpeed;
         public Game1()
         {
@@ -30,8 +37,11 @@ namespace MonoGame_Topic_3___Animations
             // TODO: Add your initialization logic here
             greyTribbleRect = new Rectangle((generator.Next(700)), generator.Next(500), 100, 100);
             greyTribbleSpeed = new Vector2 (5, 5);
-            brownTribbleRect = new Rectangle(600, 10, 100, 100);
-            brownTribbleSpeed = new Vector2(5, 0);
+            brownTribbleRect = new Rectangle(750, 50, 100, 100);
+            brownTribbleRect2 = new Rectangle(-50, 50, 100, 100);
+            brownTribbleSpeed = new Vector2(6, 0);
+            greyTribbleRect = new Rectangle((generator.Next(700)), generator.Next(500), 100, 100);
+            greyTribbleSpeed = new Vector2(5, 5);
             window = new Rectangle(0, 0, 800, 600);
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -44,6 +54,8 @@ namespace MonoGame_Topic_3___Animations
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             greyTribbleTexture = Content.Load<Texture2D>("tribbleGrey");
             brownTribbleTexture = Content.Load<Texture2D>("tribbleBrown");
+            portalTexture = Content.Load<Texture2D>("portal");
+            TrekTexture = Content.Load<Texture2D>("StarTrekBG");
             // TODO: use this.Content to load your game content here
         }
 
@@ -60,17 +72,13 @@ namespace MonoGame_Topic_3___Animations
 
 
             brownTribbleRect.X += (int)brownTribbleSpeed.X;
-            brownTribbleRect.Y += (int)brownTribbleSpeed.Y;
-            if (brownTribbleRect.Right >= window.Width || brownTribbleRect.Left <= window.Left)
-                brownTribbleSpeed.X *= -1;
-            if (brownTribbleRect.Top <= window.Top || brownTribbleRect.Bottom >= window.Height)
-                brownTribbleSpeed.Y *= -1;
+            brownTribbleRect2.X += (int)brownTribbleSpeed.X;
+            if (brownTribbleRect.X >= window.Width)
+                brownTribbleRect.X = -750;
+            if (brownTribbleRect2.X >= window.Width)
+                brownTribbleRect2.X = -750;
 
-            if (greyTribbleRect.Intersects(brownTribbleRect))
-            {
-                if (greyTribbleSpeed.X == 1 && brownTribbleSpeed.X == 1)
 
-            }
 
             // TODO: Add your update logic here
 
@@ -81,9 +89,13 @@ namespace MonoGame_Topic_3___Animations
         {
             GraphicsDevice.Clear(Color.BlueViolet);
             _spriteBatch.Begin();
-
+            _spriteBatch.Draw(TrekTexture, window, Color.White);
+            _spriteBatch.Draw(portalTexture, new Rectangle(-50, 0, 100, 200), Color.White);
+            _spriteBatch.Draw(portalTexture, new Rectangle(750, 0, 100, 200), Color.White);
             _spriteBatch.Draw(greyTribbleTexture, greyTribbleRect, Color.White);
             _spriteBatch.Draw(brownTribbleTexture, brownTribbleRect, Color.White);
+            _spriteBatch.Draw(brownTribbleTexture, brownTribbleRect2, Color.White);
+;
 
             _spriteBatch.End();
             // TODO: Add your drawing code here
